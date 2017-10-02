@@ -2,7 +2,7 @@
 # coding=utf-8
 import pymysql
 
-db = pymysql.connect(host='172.24.177.98', user='root', passwd='some_pass', db='asteriskcdrdb', port=3306)
+db = pymysql.connect(host=, user=, passwd=, db=, port=)
 
 cursor = db.cursor()
 
