@@ -11,6 +11,11 @@
 <body>
 
 	<center><h1>Login page</h1></center>
+	<form method="POST">
+		{% if error %}<p>Name to short</p>{% endif %}
+		<input name="name" type="text" {% if name %}value="{{ name }}"{% endif %}>
+		<input type="submit">
+	</form>
 
 </body>
 </html>

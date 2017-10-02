@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -32,13 +32,13 @@ class User(Base):
         self.status = status
 
     def __repr__(self):
-        return "User(first_name='%s', last_name='%s', login='%s', password='%s', email='%s', telegram_id='%s', groupe='%s', status='%s')" % (self.first_name,
+        return "first_name='%s', last_name='%s', login='%s', password='%s', email='%s', telegram_id='%s', groupe='%s', status='%s'" % (self.first_name,
         self.last_name, self.login, self.password, self.email, self.telegram_id, self.groupe, self.status)
     
-    def add_users(first_name, last_name, login, password, email, telegram_id, groupe, status):
-
-        me = User(first_name, last_name, login, password, email, telegram_id, groupe, status)
-        db_session.add(me)
+    @staticmethod
+    def add_users(first_name, last_name, login, password, email, telegram_id, groupe, status = 'free'):
+        user = User(first_name, last_name, login, password, email, telegram_id, groupe, status)
+        db_session.add(user)
         db_session.commit()
 
 
@@ -48,15 +48,33 @@ class User(Base):
     def query_info(field_name, specific_info):
         return User.query.filter(getattr(User, field_name) == specific_info).all()
 
-
-class Logggggs:
+class Logggggs(Base):
     __tablename__ = 'basiclogs'
+    id = Column(Integer, primary_key = True)
+    T0 = Column(DateTime)
+    T1 = Column(DateTime)
+    T2 = Column(DateTime)
+    T3 = Column(DateTime)
+    telegram_id = Column(String(50))
+    action = Column(String(50))
+    companion = Column(String(50))
 
+    def __init__(self, T0 = None, T1 = None, T2 = None, T3 = None, telegram_id = None, action = None, companion = None):
+        self.T0 = T0
+        self.T1 = T1
+        self.T2 = T2
+        self.T3 = T3
+        self.telegram_id = telegram_id
+        self.action = action
+        self.companion = companion
 
-class Action(Logggggs):
-    __tablename__ = 'actionlogs'
-
+    @staticmethod
+    def add_logs(T0 = None, T1 = None, T2 = None, T3 = None, telegram_id = None, action = None, companion = None):
+        loggg = Logggggs(T0, T1, T2, T3, telegram_id, action, companion)
+        db_session.add(loggg)
+        db_session.commit()
 
 
 if __name__ == '__main__':
     Base.metadata.create_all(bind=engine)
+

@@ -1,22 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 
-app = Flask(__name__, static_url_path='/Users/igorartaran/Documents/LearnPython/CallToolProject/static/')
+app = Flask(__name__, static_url_path='/Users/igorartaran/Documents/LearnPython/CallToolProject/CallToolApp/static/')
 
 @app.route('/')
 def index():
     return render_template('/index.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login_page():
-    name = None
-    error = None
-    if request.method == 'POST':
-        name = request.form.get('name')
-        error = len(name) < 10
-        if not error:
-            return redirect(url_for('index'))
-    return render_template('/login.html', name=name, error=error)
+    return render_template('/login.html')
 
 
 @app.route('/main')
