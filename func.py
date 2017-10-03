@@ -6,38 +6,53 @@ def query_info(field_name, specific_info):
     return User.query.filter(getattr(User, field_name) == specific_info).all()
 
 #Создать единую функцию изменения статусов и логирования
-def change_status(id_from_telegram, new_user_status):
-    user_in_action = User.query.filter(User.telegram_id.like(id_from_telegram)).first()
-    user_in_action.status = new_user_status
-    db.db_session.commit()
+def change_status(user_login, new_user_status):
+    try:
+        user_in_action = User.query.filter(User.login.like(user_login)).first()
+        user_in_action.status = new_user_status
+        db.db_session.commit()
+    except AttributeError:
+        pass
 
 #Обозначаем юзеров свободными в начале рабочего дня
-def user_free(id_from_telegram):
-    change_status(id_from_telegram, 'free')
+def user_free(user_login):
+    change_status(user_login, 'free')
 
-def user_called(id_from_telegram):
-    change_status(id_from_telegram, 'waiting')
+def user_called(user_login):
+    change_status(user_login, 'waiting')
 
-    Logggggs.add_logs(T1 = datetime.now(), telegram_id = id_from_telegram, action = 'called')
+    Logggggs.add_logs(T1 = datetime.now(), login = user_login, action = 'called')
 
-def work_taken(id_from_telegram, id_from_telegram_c_ngn):
-    change_status(id_from_telegram, 'work_taken')
-    change_status(id_from_telegram_c_ngn, 'work_with')
+def work_taken(user_login, user_login_c_ngn):
+    change_status(user_login, 'work_with')
+    change_status(user_login_c_ngn, 'work_with')
 
-    Logggggs.add_logs(T2 = datetime.now(), telegram_id = id_from_telegram, action = 'work_with', companion = id_from_telegram_c_ngn)
+    Logggggs.add_logs(T2 = datetime.now(), login = user_login, action = 'job_start', companion = user_login_c_ngn)
 
-def job_done(id_from_telegram, id_from_telegram_c_ngn):
+def job_done(user_login, user_login_c_ngn):
 
-    change_status(id_from_telegram, 'ready_to_work')
-    change_status(id_from_telegram_c_ngn, 'ready_to_work')
+    change_status(user_login, 'free')
+    change_status(user_login_c_ngn, 'free')
 
-    Logggggs.add_logs(T3 = datetime.now(), telegram_id = id_from_telegram, action = 'job_done', companion = id_from_telegram_c_ngn)
+    Logggggs.add_logs(T3 = datetime.now(), login = user_login, action = 'job_done', companion = user_login_c_ngn)
 
 #возврат в очередь
-# def return_to_queue(id_from_telegram, id_from_telegram_c_ngn):
+def return_to_queue(user_login, user_login_c_ngn):
 
-#     change_status(id_from_telegram, 'ready_to_work')
-#     change_status(id_from_telegram_c_ngn, 'ready_to_work')
+    change_status(user_login, 'ready_to_work')
+    change_status(user_login_c_ngn, 'free')
 
-#     Logggggs.add_logs(T3 = datetime.now(), telegram_id = id_from_telegram, action = 'job_done', companion = id_from_telegram_c_ngn)
+    Logggggs.add_logs(T3 = datetime.now(), login = user_login, action = 'return_to_q', companion = user_login_c_ngn)
+
+def check_user_status(user_login):
+    try:
+        user_in_action = User.query.filter(User.login.like(user_login)).first()
+        return user_in_action.status
+    except AttributeError:
+        #Тут происходит заполение базы пользователей неизвестными позвонившими
+        User.add_users('unknown', 'unknown', user_login, 'unknown', 'unknown', user_login, 'unknown')
+        check_user_status(user_login)
+    
+
+
 

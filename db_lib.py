@@ -55,22 +55,22 @@ class Logggggs(Base):
     T1 = Column(DateTime)
     T2 = Column(DateTime)
     T3 = Column(DateTime)
-    telegram_id = Column(String(50))
+    login = Column(String(50))
     action = Column(String(50))
     companion = Column(String(50))
 
-    def __init__(self, T0 = None, T1 = None, T2 = None, T3 = None, telegram_id = None, action = None, companion = None):
+    def __init__(self, T0 = None, T1 = None, T2 = None, T3 = None, login = None, action = None, companion = None):
         self.T0 = T0
         self.T1 = T1
         self.T2 = T2
         self.T3 = T3
-        self.telegram_id = telegram_id
+        self.login = login
         self.action = action
         self.companion = companion
 
     @staticmethod
-    def add_logs(T0 = None, T1 = None, T2 = None, T3 = None, telegram_id = None, action = None, companion = None):
-        loggg = Logggggs(T0, T1, T2, T3, telegram_id, action, companion)
+    def add_logs(T0 = None, T1 = None, T2 = None, T3 = None, login = None, action = None, companion = None):
+        loggg = Logggggs(T0, T1, T2, T3, login, action, companion)
         db_session.add(loggg)
         db_session.commit()
 
