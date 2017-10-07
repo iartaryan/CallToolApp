@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
 
 engine = create_engine('sqlite:///users.sqlite')
 db_session = scoped_session(sessionmaker(bind=engine))
@@ -10,6 +11,9 @@ Base.query = db_session.query_property()
 
 class User(Base):
     __tablename__ = 'users'
+
+    STATUS_FREE = 'free'
+
     id = Column(Integer, primary_key = True)
     first_name = Column(String(50))
     last_name = Column(String(50))
@@ -36,17 +40,10 @@ class User(Base):
         self.last_name, self.login, self.password, self.email, self.telegram_id, self.groupe, self.status)
     
     @staticmethod
-    def add_users(first_name, last_name, login, password, email, telegram_id, groupe, status = 'free'):
+    def add_users(first_name, last_name, login, password, email, telegram_id, groupe, status=STATUS_FREE):
         user = User(first_name, last_name, login, password, email, telegram_id, groupe, status)
         db_session.add(user)
         db_session.commit()
-
-
-    def query_info_all():
-        return User.query.all()
-
-    def query_info(field_name, specific_info):
-        return User.query.filter(getattr(User, field_name) == specific_info).all()
 
 class Logggggs(Base):
     __tablename__ = 'basiclogs'
@@ -69,11 +66,14 @@ class Logggggs(Base):
         self.companion = companion
 
     @staticmethod
-    def add_logs(T0 = None, T1 = None, T2 = None, T3 = None, login = None, action = None, companion = None):
+    def add_logs(T0 = datetime.now(), T1 = None, T2 = None, T3 = None, login = None, action = None, companion = None):
         loggg = Logggggs(T0, T1, T2, T3, login, action, companion)
         db_session.add(loggg)
         db_session.commit()
 
+    def __repr__(self):
+        return "T0='%s', T1='%s', T2='%s', T3='%s', login='%s', action='%s', companion='%s'" % (self.T0,
+         self.T1, self.T2, self.T3, self.login, self.action, self.companion)
 
 if __name__ == '__main__':
     Base.metadata.create_all(bind=engine)

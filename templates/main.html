@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	
+    
     <meta charset="UTF-8">
     <title>Main</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,7 +10,45 @@
 </head>
 <body>
 
-	<center><h1>Main page</h1></center>
+    <center><h1>Main page</h1></center>
+    <br>
 
+    <h3><ul>
+        <li>
+            <a href="/main">Main</a>
+        </li>
+        <br>
+        <li>
+            <a href="/working">Working</a>
+        </li>
+        <br>
+        <li>
+            <a href="/free">Free</a>
+        </li>
+        <br>
+    </h3></ul>
+    <div>
+        <ul>
+            {% for item, time in call_table.items() %}
+            <li>
+                {{ item }} | {{ time }}
+                <form action="{{ url_for('take_in_hand', login=item) }}" method="POST">
+                    <button type="submit">Взять в работу</button>
+                </form>
+                <form action="{{ url_for('dobi_is_free', login=item) }}" method="POST">
+                    <button type="submit">Отпустить</button>
+                </form>
+                <form action="{{ url_for('return_to_queue', login=item) }}" method="POST">
+                    <button type="submit">Вернуть в очередь</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <hr>
+    &copy; "Все права защищены"
+ 
+    <br>
 </body>
 </html>
+
