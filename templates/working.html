@@ -6,48 +6,79 @@
     <title>Working</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
-   
+<style>
+
+.call_table {  
+    display: flex;
+    width : 900px;
+    height: 100%;
+    margin : 0 auto;
+    position: relative;
+}
+
+.main-menu{
+    width: 30%;
+
+}
+
+.content_text{
+    width: 70%;
+    padding-top: 20px;
+}
+
+.footer {
+    width: 100%;
+    text-align: center;
+    height: 100px;
+    font-weight: bold;
+    padding: 10px 10px 0 0;
+    box-sizing: border-box;
+    }
+/*!   ul{border: 1px solid #000;} */
+
+</style>
 </head>
 <body>
-
-	<center><h1>Working page</h1></center>
+    
+    <center><h1>Working page</h1></center>
     <br>
-
-    <h3><ul>
-        <li>
-            <a href="/main">Main</a>
-        </li>
-        <br>
-        <li>
-            <a href="/working">Working</a>
-        </li>
-        <br>
-        <li>
-            <a href="/free">Free</a>
-        </li>
-        <br>
-    </h3></ul>
-    <div>
-        <ul>
-            {% for item, time in call_table.items() %}
-            <li>
-                {{ item }} | {{ time }}
-                <form action="{{ url_for('take_in_hand', login=item) }}" method="POST">
-                    <button type="submit">Взять в работу</button>
-                </form>
-                <form action="{{ url_for('dobi_is_free', login=item) }}" method="POST">
-                    <button type="submit">Отпустить</button>
-                </form>
-                <form action="{{ url_for('return_to_queue', login=item) }}" method="POST">
-                    <button type="submit">Вернуть в очередь</button>
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
+    <div class="call_table">
+        <div class="main-menu">
+            <h3><ul>
+                <li>
+                    <a href="/main">Main</a>
+                </li>
+                <br>
+                <li>
+                    <a href="/working">Working</a>
+                </li>
+                <br>
+                <li>
+                    <a href="/free">Free</a>
+                </li>
+                <br>
+            </ul></h3>
+        </div>
+        <div class="content_text">
+            <ul>
+                {% for item, time in call_table.items() %}
+                <li>
+                    {{ item }} | {{ time }}
+                    <form action="{{ url_for('take_in_hand', login=item) }}" method="POST">
+                        <button type="submit">Взять себе в работу</button>
+                    </form>
+                    <form action="{{ url_for('dobi_is_free', login=item) }}" method="POST">
+                        <button type="submit">Отпустить</button>
+                    </form>
+                    <br>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <hr>
-    &copy; "Все права защищены"
- 
-    <br>
+    <div  class ="footer">
+        &copy; "Все права защищены"
+    </div>
 </body>
 </html>

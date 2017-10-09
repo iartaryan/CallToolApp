@@ -4,6 +4,11 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
+try:
+    from settings_local import *
+except ImportError:
+    pass
+
 engine = create_engine('sqlite:///users.sqlite')
 db_session = scoped_session(sessionmaker(bind=engine))
 Base = declarative_base()
@@ -11,8 +16,6 @@ Base.query = db_session.query_property()
 
 class User(Base):
     __tablename__ = 'users'
-
-    STATUS_FREE = 'free'
 
     id = Column(Integer, primary_key = True)
     first_name = Column(String(50))
@@ -47,6 +50,7 @@ class User(Base):
 
 class Logggggs(Base):
     __tablename__ = 'basiclogs'
+
     id = Column(Integer, primary_key = True)
     T0 = Column(DateTime)
     T1 = Column(DateTime)
@@ -73,7 +77,7 @@ class Logggggs(Base):
 
     def __repr__(self):
         return "T0='%s', T1='%s', T2='%s', T3='%s', login='%s', action='%s', companion='%s'" % (self.T0,
-         self.T1, self.T2, self.T3, self.login, self.action, self.companion)
+        self.T1, self.T2, self.T3, self.login, self.action, self.companion)
 
 if __name__ == '__main__':
     Base.metadata.create_all(bind=engine)

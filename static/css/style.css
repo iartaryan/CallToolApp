@@ -1,0 +1,83 @@
+.header {
+    background: url(../img/mercedes-benz-s-class-wv222_1000x470_sr_03-2013.jpg);
+    height : 470px;
+} 
+.main-menu{
+    list-style: none;
+    float: right;
+    margin-right: 15px;
+}
+
+.main-menu li{
+    display: inline-block;
+    padding: 0 5px;
+    font-size: 25px;
+    font-style: normal;
+}
+.main-menu a{
+    text-decoration:none;
+}
+.call_table {  
+    display: flex;
+    width : 500px;
+    height: 100%;
+    margin : 0 auto;
+    flex-direction: column;
+    background: darkgrey;
+    position: relative;
+    border: 3px solid #000;
+}
+
+.content_text{
+    display: inline-block;
+    position: relative;
+    width: 60%;
+    margin: 50px 0px 0px 100px;
+    font-style: normal;
+}
+
+.product{
+    position: relative;
+    left: 0px;
+    width : 500px;
+    margin : 10px auto;
+    padding: 10px 10px 0 0;
+    border: 3px solid #fc0;
+}
+.prod_title{
+    margin-top: 5px;
+}
+.prod_img{
+    margin-top: 5px;
+    width: 30%;
+    float: left;
+    height: 100%
+
+}
+.prod_text{
+    margin-top: 5px;
+    width: 70%;
+    float: right;
+}
+.product input{
+    float: right;
+    margin:10px 10px 10px 10px;
+}
+
+.detail_text{
+    padding-left: 10px;
+    float: left;
+
+}
+
+
+.footer {
+    background:tomato;
+    width: 100%;
+    text-align: right;
+    height: 100px;
+    font-weight: bold;
+    padding: 10px 10px 0 0;
+    border: 3px solid #fc0;
+    box-sizing: border-box;
+}
